@@ -11,20 +11,6 @@
 # the Free Software Foundation.
 #
 
-# modules_dir { \"rpmbuild\": }
-
 class rpmbuild {
     include rpmbuild::base
-}
-
-class rpmbuild::base {
-    package{'rpmbuild':
-        ensure => present,
-    }
-    service{rpmbuild:
-        ensure => running,
-        enable => true,
-        hasstatus => true,
-        require => Package[rpmbuild],
-    }
 }
