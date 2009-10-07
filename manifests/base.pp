@@ -1,7 +1,7 @@
 class rpmbuild::base {
     include gcc
 
-    package{'rpm-build':
+    package{ ['rpm-build', 'rpmdevtools', 'rpmlint']:
         ensure => present,
     }
 
