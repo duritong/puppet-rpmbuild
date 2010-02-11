@@ -12,5 +12,10 @@
 #
 
 class rpmbuild {
-    include rpmbuild::base
+    require gcc
+
+    package{'rpm-build':
+        ensure => present,
+    }
+    user::managed{'mockbuild': }
 }
