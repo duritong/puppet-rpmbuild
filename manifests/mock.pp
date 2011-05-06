@@ -26,14 +26,18 @@ class rpmbuild::mock inherits rpmbuild {
         source => "puppet:///modules/rpmbuild/scripts/signrpm",
         require => User::Managed['mockbuild'],
         owner => mockbuild, group => mockbuild, mode => 0700;
-    '/home/mockbuild/bin/pbad':
-        source => "puppet:///modules/rpmbuild/scripts/pbad.rb",
-        require => [ User::Managed['mockbuild'], File['/home/mockbuild/bin/signrpm'] ],
-        owner => mockbuild, group => mockbuild, mode => 0700;
     '/home/mockbuild/.pbad.yml':
         source => [ "puppet:///modules/site-rpmbuild/mock/${fqdn}/pbad.yml",
                     "puppet:///modules/site-rpmbuild/mock/pbad.yml" ],
         require => [ User::Managed['mockbuild'], File['/home/mockbuild/bin/signrpm'] ],
+        owner => mockbuild, group => mockbuild, mode => 0700;
+    '/home/mockbuild/bin/pbad':
+        source => "puppet:///modules/rpmbuild/scripts/pbad.rb",
+        require => [ User::Managed['mockbuild'], File['/home/mockbuild/.pbad.yml'] ],
+        owner => mockbuild, group => mockbuild, mode => 0700;
+    '/home/mockbuild/bin/p2stable':
+        source => "puppet:///modules/rpmbuild/scripts/p2stable.rb",
+        require => [ User::Managed['mockbuild'], File['/home/mockbuild/bin/pbad'] ],
         owner => mockbuild, group => mockbuild, mode => 0700;
   }
 }
