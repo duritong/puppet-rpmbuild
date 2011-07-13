@@ -1,7 +1,7 @@
 class rpmbuild {
     include gcc
 
-    package{ ['rpm-build', 'rpmdevtools', 'rpmlint']:
+    package{ ['rpm-build', 'rpmdevtools', 'rpmlint', 'repoview' ]:
         ensure => present,
     }
 
