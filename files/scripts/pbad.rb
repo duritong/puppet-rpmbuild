@@ -2,13 +2,6 @@
 
 ### config
 
-def releases
-  [5]
-end
-def archs
-  ['i386','x86_64']
-end
-
 ### end fo config
 
 if ARGV.length < 1
@@ -31,6 +24,13 @@ unless @options['target_dir'] && File.exist?(@options['target_dir'])
   puts "Set target_dir in ~/.pbad.yml to an existing directory"
   exit 1
 end
+def releases
+  @options['releases']
+end
+def archs
+  @options['archs']
+end
+
 
 require 'rubygems'
 require 'highline/import'
