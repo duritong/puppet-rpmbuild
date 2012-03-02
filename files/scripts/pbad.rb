@@ -9,6 +9,10 @@ if ARGV.length < 1
   exit 1
 end
 
+if ARGV.include?('--releases')
+  @releases = ARGV.slice!(ARGV.index('--releases'),2)[1].split(',')
+end
+
 unless ARGV.all?{|file| File.exist?(file) }
   puts "Some Specfiles do not exist!"
   exit 1
@@ -24,8 +28,8 @@ unless @options['target_dir'] && File.exist?(@options['target_dir'])
   puts "Set target_dir in ~/.pbad.yml to an existing directory"
   exit 1
 end
-def releases
-  @options['releases']
+def releases(name=nil)
+  @releases ||= (name.nil? ? @options['releases'] : (@options[name]['releases'])) || @options['releases']
 end
 def archs
   @options['archs']
@@ -62,7 +66,7 @@ def build_rpm(specfile)
   puts "SRPM (#{File.basename(srpmfile)}) successfully builded."
   
   require 'fileutils'
-  releases.each do |release|
+  releases(File.basename(specfile,'.spec')).each do |release|
     archs.each do |arch|
       puts "Building RPM (#{File.basename(srpmfile)}) for RHEL#{release} on #{arch}"
       status, stdout, stderr = exec_command("/usr/bin/mock -r epel-#{release}-#{arch} rebuild #{srpmfile}")
