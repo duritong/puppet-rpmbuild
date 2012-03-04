@@ -5,7 +5,7 @@
 ### end fo config
 
 if ARGV.length < 1
-  puts "Usage: pbad path/to/SOME.spec[ path/to/OTHER.spec]"
+  puts "Usage: pbad  [--releases 5,6] path/to/SOME.spec [path/to/OTHER.spec]"
   exit 1
 end
 
