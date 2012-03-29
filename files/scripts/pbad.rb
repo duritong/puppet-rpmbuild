@@ -29,7 +29,7 @@ unless @options['target_dir'] && File.exist?(@options['target_dir'])
   exit 1
 end
 def releases(name=nil)
-  @releases ||= (name.nil? ? @options['releases'] : (@options[name]['releases'])) || @options['releases']
+  @releases ||= (name.nil? ? @options['releases'] : ((@options[name]||{})['releases'])) || @options['releases']
 end
 def archs
   @options['archs']
