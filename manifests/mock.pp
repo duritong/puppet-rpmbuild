@@ -14,8 +14,8 @@ class rpmbuild::mock inherits rpmbuild {
 
   file{
     '/home/mockbuild/.rpmmacros':
-        source => [ "puppet:///modules/site-rpmbuild/mock/${fqdn}/rpmmacros",
-                    "puppet:///modules/site-rpmbuild/mock/rpmmacros" ],
+        source => [ "puppet:///modules/site_rpmbuild/mock/${::fqdn}/rpmmacros",
+                    "puppet:///modules/site_rpmbuild/mock/rpmmacros" ],
         require => User::Managed['mockbuild'],
         owner => mockbuild, group => mockbuild, mode => 0640;
     '/home/mockbuild/bin':
@@ -27,8 +27,8 @@ class rpmbuild::mock inherits rpmbuild {
         require => User::Managed['mockbuild'],
         owner => mockbuild, group => mockbuild, mode => 0700;
     '/home/mockbuild/.pbad.yml':
-        source => [ "puppet:///modules/site-rpmbuild/mock/${fqdn}/pbad.yml",
-                    "puppet:///modules/site-rpmbuild/mock/pbad.yml" ],
+        source => [ "puppet:///modules/site_rpmbuild/mock/${::fqdn}/pbad.yml",
+                    "puppet:///modules/site_rpmbuild/mock/pbad.yml" ],
         require => [ User::Managed['mockbuild'], File['/home/mockbuild/bin/signrpm'] ],
         owner => mockbuild, group => mockbuild, mode => 0700;
     '/home/mockbuild/bin/pbad':

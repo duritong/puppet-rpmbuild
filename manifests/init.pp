@@ -1,9 +1,9 @@
 class rpmbuild {
-    include gcc
+  include gcc
 
-    package{ ['rpm-build', 'rpmdevtools', 'rpmlint', 'repoview' ]:
-        ensure => present,
-    }
+  package{ ['rpm-build', 'rpmdevtools', 'rpmlint', 'repoview' ]:
+    ensure => present,
+  }
 
-    user::managed{'mockbuild': }
+  user::managed{'mockbuild': }
 }
