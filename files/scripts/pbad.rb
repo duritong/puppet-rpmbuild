@@ -5,12 +5,15 @@
 ### end fo config
 
 if ARGV.length < 1
-  puts "Usage: pbad  [--releases 5,6] path/to/SOME.spec [path/to/OTHER.spec]"
+  puts "Usage: pbad  [--releases 5,6] [--archs x86_64,i386] path/to/SOME.spec [path/to/OTHER.spec]"
   exit 1
 end
 
 if ARGV.include?('--releases')
   @releases = ARGV.slice!(ARGV.index('--releases'),2)[1].split(',')
+end
+if ARGV.include?('--archs')
+  @archs = ARGV.slice!(ARGV.index('--archs'),2)[1].split(',')
 end
 
 unless ARGV.all?{|file| File.exist?(file) }
@@ -32,7 +35,7 @@ def releases(name=nil)
   @releases ||= (name.nil? ? @options['releases'] : ((@options[name]||{})['releases'])) || @options['releases']
 end
 def archs
-  @options['archs']
+  @archs ||= @options['archs']
 end
 
 
