@@ -16,8 +16,8 @@ unless @options['target_dir'] && File.exist?(@options['target_dir'])
   exit 1
 end
 
-def releases
-  @options['releases']
+def releases(name=nil)
+  @releases ||= (name.nil? ? @options['releases'] : ((@options[name]||{})['releases'])) || @options['releases']
 end
 
 def archs
@@ -25,13 +25,14 @@ def archs
 end
 
 require 'fileutils'
+name = ARGV[0]
 releases.each do |release|
   archs.each do |arch|
-    Dir["#{@options['target_dir']}/el#{release}-testing/#{arch}/#{ARGV[0]}*.rpm"].each do |rpm|
+    Dir["#{@options['target_dir']}/el#{release}-testing/#{arch}/#{name}*.rpm"].each do |rpm|
       puts "Move #{rpm}"
       FileUtils.mv(rpm,"#{@options['target_dir']}/el#{release}/#{arch}/")
     end
-    Dir["#{@options['target_dir']}/el#{release}-testing/#{arch}-debuginfo/#{ARGV[0]}*.rpm"].each do |rpm|
+    Dir["#{@options['target_dir']}/el#{release}-testing/#{arch}-debuginfo/#{name}*.rpm"].each do |rpm|
       puts "Move #{rpm}"
       FileUtils.mv(rpm,"#{@options['target_dir']}/el#{release}/#{arch}-debuginfo/")
     end
