@@ -60,14 +60,20 @@ def print_error(str,stdout,stderr)
 end
 
 def build_rpm(specfile)
-  status, stdout, stderr = exec_command("rpmbuild -bs --nodeps #{specfile}")
-  srpmfile = stdout.chomp.sub('Wrote: ','')
-  
-  unless (status == 0) && srpmfile =~ /^\// && File.exist?(srpmfile)
-    print_error("SRPM not builded correctly!",stdout,stderr)
+  if specfile =~ /\.spec$/
+    status, stdout, stderr = exec_command("rpmbuild -bs --nodeps #{specfile}")
+    srpmfile = stdout.chomp.sub('Wrote: ','')
+    unless (status == 0) && srpmfile =~ /^\// && File.exist?(srpmfile)
+      print_error("SRPM not builded correctly!",stdout,stderr)
+    end
+    puts "SRPM (#{File.basename(srpmfile)}) successfully builded."
+  elsif specfile =~ /\.src\.rpm$/
+    srpmfile = specfile
+    specfile = specfile.sub(/\.src\.rpm/,'.spec')
+  else
+    print_error("We only support specfiles or SRPMs",'','')
   end
-  puts "SRPM (#{File.basename(srpmfile)}) successfully builded."
-  
+
   require 'fileutils'
   releases(File.basename(specfile,'.spec')).each do |release|
     archs.each do |arch|
